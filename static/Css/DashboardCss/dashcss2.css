@@ -1,0 +1,113 @@
+.resum-profile-img {
+    width: 90px; /* Adjust size as needed */
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+
+.dashuser-profile-text {
+    margin-left: 30px;
+    flex: 1; /* Ensures text takes available space */
+    min-width: 150px; /* Prevents text from shrinking too much */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) { /* For small screens */
+    .d-flex {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center;
+        text-align: center; /* Center align text */
+    }
+
+    .dashuser-profile-text {
+        margin-left: 0; /* Remove left margin */
+        margin-top: 10px; /* Add top spacing */
+    }
+}
+
+
+.dashres-sect1-row2p{
+    font-weight: bold;
+}
+
+.custom-hr {
+    border: 1px solid black;
+    width: 100%; /* Ensures it stays within col-md-12 */
+    margin: 20px 0; /* Adjust spacing */
+}
+
+
+
+
+.resdashinterview-box {
+    padding: 10px;
+}
+
+.resdashvideo-icon {
+    width: 24px; /* Adjust size as needed */
+    height: 24px;
+    margin-right: 10px; /* Space between icon and text */
+}
+
+.resdashinterview-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.resdashinterview-title {
+    font-weight: bold;
+    color: black;
+    margin: 0;
+}
+
+.resdashinterview-time {
+    font-weight: bold;
+    color: gray;
+    margin: 5px 0 0;
+}
+
+.resdashinterview-host {
+    color: gray;
+    margin: 2px 0 0;
+}
+
+.rescustom-btn2 {
+    background-color: gray;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+.rescustom-btn2:hover {
+    background-color: #333; /* Slightly lighter black */
+}
+
+.rescustom-btn {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+.rescustom-btn:hover {
+    background-color: #333; /* Slightly lighter black */
+}
+
+
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    width: 50%;
+    height: 50%;
+  }

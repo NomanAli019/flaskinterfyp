@@ -1,0 +1,47 @@
+{% include "DashboardTemp/dashheader.html" %}
+
+  <div class="container-fluid">
+
+    <div class="row mt-5">
+        <div class="col-md-8 p-0">
+            <div class="video-container">
+                <video id="video" autoplay playsinline></video>
+                <div class="controls d-flex justify-content-center py-3">
+                    <button class="btn btn-light" id="muteButton">🔇</button>
+                    <button class="btn btn-light" id="videoButton">📷</button>
+                    <button class="btn btn-danger" id="endCallButton">📞</button>
+                    <button class="btn btn-light" id="settingsButton">⚙</button>
+                    <button class="btn btn-light" id="fullscreenButton">⛶</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 p-0">
+
+            <div class="checklist">
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='dashboard/images/10.png') }}" id="micIndicator" class="mic-animation" alt="">
+                </div>
+                <div class="checklist_in_sec">
+                    <h5 class="mb-3">Interview Checklist</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">✔ Interview Checklist</li>
+                        <li class="mb-3">✔ Interview Checklist</li>
+                        <li class="mb-3">✔ Interview Checklist</li>
+                    </ul>
+                    <button class="btn btn-primary w-100" id="startInterview">Start Interview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="transcription mt-3">
+        <h4 class="text-center">Live Transcription</h4>
+        <p>...</p>
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->
+</div>
+
+{% include "DashboardTemp/dashfooter.html" %}

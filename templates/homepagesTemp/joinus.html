@@ -1,0 +1,238 @@
+{% include "homepagesTemp/header.html" %}
+
+<section class="join-sect1 " id="joinus-sect1">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 join-sect1row1-col">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 join-sect1nesrow1-col">
+                        <p class="join-sect1nesrow1-colp1">
+                            "Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.
+                            Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
+                            Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo,
+                            non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 join-sect1row1-col2">
+            <div class="container join-sect1nesrow2">
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                    <p class="join-sect1nesrow2-col2p1">Already have an account?<span class="join-sect1nesrow2-col2p2"> Sign In </span></p>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                    <h2>Join Us!</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                    <p class="join-sect1nesrow2-col2p1">To begin this journey, tell us what type of account you’d be opening.</p>
+                    </div>
+                </div>
+
+                <div class="row mt-3 join-sect1nesrow3">
+                    <div class="col-md-2 ">
+                        <img src="{{ url_for ('static' , filename='Images/homeImages/employee.png') }}" alt="Employee Icon" class="join-employee-icon">
+                    </div>
+                    <div class="col-md-4 ">
+                        <p class="join-sect1nesrow2-col2p2" onclick="moveto_employesignup()">Employee</p>
+                        <p class="join-sect1nesrow2-col2p1">Test your skills and find a job</p>
+                    </div>
+                    <div class="col-md-6 ">
+                        <span class="join-arrow-icon">→</span>
+                    </div>
+                </div>
+
+                <div class="row mt-3 join-sect1nesrow3">
+                    <div class="col-md-2 ">
+                        <img src="{{ url_for ('static' ,  filename='Images/homeImages/employer.png') }}" alt="Employee Icon" class="join-employee-icon">
+                    </div>
+                    <div class="col-md-5 ">
+                        <p class="join-sect1nesrow2-col2p2">Employer</p>
+                        <p class="join-sect1nesrow2-col2p1">Post Jobs and find best talent</p>
+                    </div>
+                    <div class="col-md-5 ">
+                       
+                    </div>
+                </div>
+        
+            </div>
+
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="mt-3 joinus-sect2contdisp" id="joinussect2">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <p class="join-sect2row1col1p2" onclick=moveto_joinus() >
+                <   Back
+            </p>
+        </div>
+            <div class="col-md-8">
+            </div>
+        <div class="col-md-2">
+            <p class="join-sect2row1col1p">STEP 01/02</p>
+            <p class="join-sect2row1col1p2">Personal info</p>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8 join-sect2row2col1">
+            <h1>Register Employee Account!</h1>
+            <p class="join-sect2row2col1h">
+                For the purpose of industry regulation, your details are required.
+            </p>
+            <hr class="join-custom-hr">
+        </div>
+        
+        
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <div class="row mt-5 joinus-sect2row3 ">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <form class="joinus-sect2-register-form" id="registerForm" onsubmit="return validateForm();">
+                <!-- Full Name -->
+                <div class="joinus-sect2-form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" class="joinus-sect2-form-control" placeholder="Enter full name" required>
+                </div>
+        
+                <!-- Email Address -->
+                <div class="joinus-sect2-form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="joinus-sect2-form-control" placeholder="Enter email Address" required>
+                </div>
+        
+                <!-- Password -->
+                <div class="joinus-sect2-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="joinus-sect2-form-control" placeholder="Enter password" required>
+                </div>
+        
+                <!-- Terms & Conditions -->
+                <div class="joinus-sect2-form-group">
+                    <label class="joinus-sect2-terms-label">
+                        <input type="radio" id="terms" name="terms" required>
+                        I agree to terms & conditions
+                    </label>
+                </div>
+        
+                <!-- Register Button -->
+                <button type="submit" class="btn join-btn-block" >Register Account</button>
+            </form>
+        </div>
+        
+        <div class="col-md-2">
+        </div>
+    </div>
+
+
+    </div>
+</section>
+
+
+
+<section class="mt-3 joinus-sect2contdisp"  id="joinus-sect3">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <p class="join-sect2row1col1p2" onclick="moveto_joinsect2()"  >
+                <   Back
+            </p>
+        </div>
+            <div class="col-md-8">
+            </div>
+        <div class="col-md-2">
+            <p class="join-sect2row1col1p">STEP 02/02</p>
+            <p class="join-sect2row1col1p2">Personal info</p>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8 join-sect2row2col1">
+            <h1>Complete Your Profile!</h1>
+            <p class="join-sect2row2col1h">
+                For the purpose of industry regulation, your details are required.
+            </p>
+            <hr class="join-custom-hr">
+        </div>
+        
+        
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <div class="row mt-5 joinus-sect2row3 ">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <form class="joinus-sect2-register-form" >
+                <!-- Full Name -->
+                <div class="joinus-sect2-form-group">
+                    <label for="phonenumber">Phone number</label>
+                    <input type="number" id="phonenumber" name="phonenumber" class="joinus-sect2-form-control" placeholder="Enter Number" required>
+                </div>
+        
+                <!-- Email Address -->
+                <div class="joinus-sect2-form-group">
+                    <label for="Youraddress">Your address</label>
+                    <input type="text" id="Youraddress" name="Youraddress" class="joinus-sect2-form-control" placeholder="Enter Address" required>
+                </div>
+        
+                <!-- Country Selection -->
+                <div class="joinus-sect2-form-group">
+                    <label for="country">Country of residence</label>
+                    <select id="country" name="country" class="joinus-sect2-form-control" required>
+                        <option value="" disabled selected>Please select</option>
+                        <option value="Afghanistan">Afghanistan</option>
+                        <option value="Albania">Albania</option>
+                        <option value="Algeria">Algeria</option>
+                        <option value="Andorra">Andorra</option>
+                        <option value="Angola">Angola</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
+                </div>
+        
+               
+                <button id="registerButton" type="submit" class="btn join-btn-block" onclick="registerEmployee()">Save & Continue </button>
+            </form>
+        </div>
+        
+        
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-12 mt-3" style="text-align:center;">
+            <p class="joinus-sectl-pl">Your info is safely secured</p>
+        </div>
+    </div>
+
+
+
+    </div>
+</section>
+
+
+{% include "homepagesTemp/footer.html" %}

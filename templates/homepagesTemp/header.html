@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InterVisio Home</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='Css/homeCss/css1.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Css/homeCss/css2.css') }}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="{{ url_for('static', filename='Js/homeJs/home.js') }}"></script>
+    <script src="{{ url_for('static', filename='Js/homeJs/loginemp.js') }}"></script>
+
+    <style>
+        .home-sect3-row1col1 {
+            background-image: url('{{ url_for('static', filename='Images/homeImages/registerbkimg.png') }}');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .home-sect3-row1col2 {
+            background-image: url('{{ url_for('static', filename='Images/homeImages/homesect3bkimgcol2.png') }}');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand navbrand-def" href="#">InterVisio</a>
+            
+            <!-- Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Collapsible Navbar Content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a href="{{ url_for('main_pages.Home') }}" class="nav-link {% if request.path == '/' %}active-navbtn{% endif %}" >Home</a>
+                    </li>
+                    <li class=" nav-item">
+                        <a class="nav-link " >Solutions</a>
+                    </li>
+                    <li class="nav-item">
+                       <a class="nav-link " >Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " >Resource</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " >Contact</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('main_pages.login') }}" class="btn home-sign-in-btn me-2">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('main_pages.join_us') }}" class="btn home-join-in-btn">Join Now</a>
+    
+                    </li>              
+                </ul>
+            </div>
+        </div>
+    </nav>
+

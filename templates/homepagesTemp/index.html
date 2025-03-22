@@ -1,0 +1,141 @@
+{% include "homepagesTemp/header.html" %}
+
+<section class="home-sect1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Transform Your Hiring Process with AI-Powered Interviews</h1>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="home-sect1div1-p1">Streamline candidate assessment with real-time analysis and automated feedback.</p>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="home-sect1div1-upbtn me-2">Upload Your CV</button>  
+                <button class="home-sect1div1-postbtn">Post Job</button>    
+            </div>
+            <div class="col-md-6"></div>
+        </div>    
+    </div>
+</section>
+
+<section class="home-sect2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h4>How It Works</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="home-sect1div1-p1">Simple steps to start your AI-powered interview journey</p>
+            </div>
+        </div>
+        <div class="row homesect2row1">
+            <div class="col-md-3 text-center">
+                <img class="homesect2img-set" src="{{ url_for('static', filename='Images/homeImages/uploadic.png') }}" alt="Upload CV"> 
+                <h5 style="font-weight:bold">Upload CV</h5>
+                <p style="font-size:9px;font-weight:200">Upload your resume and let AI analyze your skills</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <img class="homesect2img-set" src="{{ url_for('static', filename='Images/homeImages/selectjobic.png') }}" alt="Select Job"> 
+                <h5 style="font-weight:bold">Select Job</h5>
+                <p style="font-size:9px;font-weight:200">Choose from available positions that match your profile</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <img class="homesect2img-set" src="{{ url_for('static', filename='Images/homeImages/interviewic.png') }}" alt="Complete Interview"> 
+                <h5 style="font-weight:bold">Complete Interview</h5>
+                <p style="font-size:9px;font-weight:200">Participate in AI-driven interview simulation</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <img class="homesect2img-set" src="{{ url_for('static', filename='Images/homeImages/analysisic.png') }}" alt="Get Analysis"> 
+                <h5 style="font-weight:bold">Get Analysis</h5>
+                <p style="font-size:9px;font-weight:200">Detailed feedback and performance analysis</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="home-sect4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Clients Testimonial</h2>
+            </div>
+            <div id="testimonialCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="testimonial">
+                                    <div class="d-flex align-items-center" style="gap:15px">
+                                        <img src="{{ url_for('static', filename='Images/homeImages/review1.png') }}" alt="Customer 1">
+                                        <p class="name">John Doe</p>
+                                    </div>
+                                    <div class="stars">★★★★★</div>
+                                    <p class="review">Lorem ipsum dolor sit amet consectetur...</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="testimonial">
+                                    <div class="d-flex align-items-center" style="gap:15px">
+                                        <img src="{{ url_for('static', filename='Images/homeImages/review2.png') }}" alt="Customer 2">
+                                        <p class="name">Johan Miles</p>
+                                    </div>
+                                    <div class="stars">★★★★★</div>
+                                    <p class="review">Lorem ipsum dolor sit amet consectetur...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ol class="carousel-indicators">
+                    <li data-target="#testimonialCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#testimonialCarousel" data-slide-to="1"></li>
+                </ol>
+            </div>
+        </div>    
+    </div>
+</section>
+
+<section class="home-sect5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 home-sect5row1-col">
+                <div class="card p-4">
+                    <h3 class="text-white mb-3">Get in Touch</h3>
+                    <p class="text-white">Enim tempor eget pharetra facilisis...</p>
+                    <form method="POST" >
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="name" placeholder="Name *" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="phone" placeholder="Phone number *" required>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" name="source" required>
+                                <option selected disabled>How did you find us?</option>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Friends">Friends</option>
+                                <option value="Advertisements">Advertisements</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-light w-100">SEND</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+
+{% include "homepagesTemp/footer.html" %}
