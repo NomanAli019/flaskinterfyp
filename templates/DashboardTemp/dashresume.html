@@ -5,9 +5,9 @@
         <div class="row mt-3">
             <div class="col-md-6">
                 <div class="d-flex align-items-start">
-                    <img src="{{ url_for('static', filename='Images/DashboardImages/userprofi.png') }}" alt="Video Call" class="resum-profile-img">
+                    <img src="{{ url_for('static', filename=empprofilepath.path) }}" alt="User Profile" class="resum-profile-img">
                     <div class="dashuser-profile-text">
-                        <h2 style="font-weight:bold;color:black">Sarah Anderson</h2>
+                        <h2 style="font-weight:bold;color:black">{{ user_data.full_name }}</h2>
                         <p>Senior Software Engineer<br>Engineering Department</p>
                     </div>
                 </div>
@@ -16,13 +16,13 @@
                 <div class="row mt-3">
                     <div class="col-md-12 d-flex justify-content-between">
                         <p class="dashres-sect1-row2p text-secondary">CV Status</p>
-                        <p class="dashres-sect1-row2p text-success">Updated 2 weeks ago</p>
+                        <p class="dashres-sect1-row2p text-success">Last Update {{empportdata.created_at}}</p>
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-12 d-flex justify-content-between">
                         <p class="dashres-sect1-row2p text-secondary">Total Interviews</p>
-                        <p class="dashres-sect1-row2p text-success">12</p>
+                        <p class="dashres-sect1-row2p text-success">{{empportdata.total_attempts}}</p>
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -36,7 +36,9 @@
 
             <div class="col-md-6">
                 <button class="rescustom-btn2" data-toggle="modal" data-target="#exampleModal">Update Profile</button>
+                <button class="rescustom-btn2" data-toggle="modal" data-target="#updatePictureModal">Update Picture</button>
             </div>
+            
            
               
               <!-- Modal Structure -->
@@ -64,6 +66,32 @@
                   </div>
                 </div>
               </div>
+
+              <div class="modal fade" id="updatePictureModal" tabindex="-1" role="dialog" aria-labelledby="updatePictureModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updatePictureModalLabel">Update Profile Picture</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="profilePictureForm" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="profilePicture">Upload your profile picture (Images only)</label>
+                                    <input type="file" class="form-control-file" id="profilePicture" accept="image/*" required>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="uploadProfilePicture()">Submit</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
            
         </div>

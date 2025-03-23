@@ -36,16 +36,13 @@ class EmployeePortfolioOperations:
             } if portfolio else None
 
     @staticmethod
-    def update_portfolio_attempts(employee_id, total_attempts=None, pass_attempts=None, losing_attempts=None):
+    def update_portfolio_attempts(employee_id, created_at=None):
         with app.app_context():
             portfolio = EmployeePortfolioData.query.filter_by(employee_id=employee_id).first()
             if portfolio:
-                if total_attempts is not None:
-                    portfolio.total_attempts = total_attempts
-                if pass_attempts is not None:
-                    portfolio.pass_attempts = pass_attempts
-                if losing_attempts is not None:
-                    portfolio.losing_attempts = losing_attempts
+                if created_at:
+                    portfolio.created_at = created_at
+                
                 db.session.commit()
                 print(f"Portfolio updated for Employee ID: {employee_id}")
             else:

@@ -41,6 +41,13 @@ class EmployeeResumes(db.Model):
     def __repr__(self):
         return f"<EmployeeResumes {self.employee_resume_path}>"
 
+class EmployeeProfile(db.Model):
+    profile_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
+    emp_pic_path = db.Column(db.String(255), nullable=False)
+
+    def __repr__(self):
+        return f"<EmployeeProfile {self.emp_pic_path}>"
 
 
 # Run this to create tables only once
