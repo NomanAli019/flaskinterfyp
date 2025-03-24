@@ -215,3 +215,45 @@ function moveto_joinsect2(){
     joinsection3.classList.add("joinus-sect2contdisp");
     joinsection2.classList.remove("joinus-sect2contdisp");
 }
+
+
+function submitJob() {
+    // Get values by ID
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let job_description = document.getElementById("job_description").value.trim();
+    let source = document.getElementById("source").value;
+
+    // Validation check
+    if (!name || !email || !phone || !job_description || source === "How did you find us?") {
+        alert("All fields are required!");
+        return;
+    }
+
+    // Create data object
+    let formData = {
+        name: name,
+        email: email,
+        phone: phone,
+        job_description: job_description,
+        source: source
+    };
+
+    // Send data to Flask route
+    fetch('/submit-job', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);  // Show success or error message
+        if (data.message === "Job posted successfully!") {
+            document.getElementById("jobForm").reset(); // Clear the form
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}

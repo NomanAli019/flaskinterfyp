@@ -48,7 +48,17 @@ class EmployeeProfile(db.Model):
 
     def __repr__(self):
         return f"<EmployeeProfile {self.emp_pic_path}>"
+    
+class JobPost(db.Model):
+    job_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    job_poster_name = db.Column(db.String(100), nullable=False)
+    job_poster_mail = db.Column(db.String(100), nullable=False)
+    job_poster_number = db.Column(db.String(20), nullable=False)
+    job_poster_desc = db.Column(db.Text, nullable=False)
+    whereyoufind = db.Column(db.String(50), nullable=False)
 
+    def __repr__(self):
+        return f"<JobPost {self.job_poster_name} - {self.job_poster_mail}>"
 
 # Run this to create tables only once
 if __name__ == '__main__':

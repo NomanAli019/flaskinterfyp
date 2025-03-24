@@ -34,4 +34,5 @@ def dash_resum():
 
 @dashboard_pages.route('/dashinter')
 def dash_inter():
-    return render_template('DashboardTemp/dashinterview.html')
+    user_data = session.get('empuser_data')
+    return render_template('DashboardTemp/dashinterview.html', user_data=user_data)
