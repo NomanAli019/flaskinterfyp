@@ -19,6 +19,7 @@ def submit_job():
     if not all([name, email, phone, job_description, source]):
         return jsonify({"message": "All fields are required!"}), 400
 
+    jobpostops.create_job_post(name , email , phone,job_description , source)
     print(f"New Job Posted by {name} ({email}) from {source}: {job_description}")
 
     return jsonify({"message": "Job posted successfully!"})

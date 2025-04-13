@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from DbOperation.EmpReumeOp import EmployeeResumesOperations
 from DbOperation.empportOp import EmployeePortfolioOperations
 from DbOperation.empprofileOp import EmployeeProfileOperations
+
 dash_resumes = Blueprint('dash_resumes', __name__)
 empresumops = EmployeeResumesOperations()
 empportops = EmployeePortfolioOperations()
