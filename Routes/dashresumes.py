@@ -39,11 +39,10 @@ def upload_resume():
         filepath = os.path.join(UPLOAD_FOLDER, filename)  # Save in the main directory's Resumes folder
         
         file.save(filepath)
-        filepath = f"/Resumes/{filename}"
+        filepath = f"Resumes\{filename}"
         user_data = session.get('empuser_data')
         if user_data:  # Check if data exists
             employee_id = user_data.get("id")
-            
             empresumops.upload_resume(employee_id,filepath)
             if empportops.check_portfolio_exists(employee_id):
                 empportops.update_portfolio_attempts(employee_id, created_at=datetime.now(timezone.utc))
