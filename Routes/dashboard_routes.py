@@ -2,8 +2,10 @@ from flask import Blueprint, render_template, session, redirect, url_for
 from DbOperation.empportOp import EmployeePortfolioOperations
 from DbOperation.EmpReumeOp import EmployeeResumesOperations
 from DbOperation.empprofileOp import EmployeeProfileOperations
+from DbOperation.JobPosterOp import JobPostOperations
 import csv
 import os
+import re
 from PyPDF2 import PdfReader
 from pdfminer.high_level import extract_text
 import pdfplumber as pdfplm
@@ -12,6 +14,7 @@ dashboard_pages = Blueprint('dashboard_pages', __name__)
 empportops = EmployeePortfolioOperations()
 empresumesops = EmployeeResumesOperations()
 empprofilesops = EmployeeProfileOperations()
+emplrjobsops  = JobPostOperations()
 
 
 @dashboard_pages.route('/dashhome')
@@ -30,43 +33,66 @@ def dash_resum():
     empportdata = empportops.get_portfolio_by_employee(user_data['id'])
     empresumedata = empresumesops.get_resumes_by_employee(user_data['id'])
     empprofilepath = empprofilesops.get_profile_by_employee(user_data['id'])
+    emplrjobdescs = emplrjobsops.get_all_job_posts()
     
     reader = PdfReader(empresumedata['path'])
-    number_of_pages = len(reader.pages)
-    for i in range(0,number_of_pages):
-        page = reader.pages[i]
+    resumedatatext_list = []
+
+    # Process pages: extract text and split into words
+    for page in reader.pages:
         text = page.extract_text()
-        print(text)
+        if text:
+            words = re.findall(r'\b\w+\b', text.lower())  # Split into words
+            resumedatatext_list.append(words)
 
-    csv_file_path = r'SkillSet\tableConvert.com_24utfm.csv'  # raw string
+    csv_file_path = r'SkillSet\tableConvert.com_24utfm.csv'
 
+    matched_skills = []
 
     try:
         with open(csv_file_path, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.reader(file)
-            next(reader)  # skip header
-            
-            output = []
+            next(reader)  # Skip header
+
             for row in reader:
                 if len(row) >= 3:
-                    output.append(row[2])
-                    print(row[2])
-        
-        
+                    skill = row[2].strip().lower()
+                    for word_list in resumedatatext_list:
+                        if skill in word_list:
+                            matched_skills.append(skill)
+                            break
+
     except FileNotFoundError:
-        return f"File not found at path: {os.path.abspath(csv_file_path)}"
+        print(f"File not found at path: {os.path.abspath(csv_file_path)}")
 
-    # print('\n pdf miner')
-    # text = extract_text(empresumedata['path'])
-    # print(text)
+    # print("Matched Skills:", matched_skills)
+    jobids_matchted_list = [] 
+    for job in emplrjobdescs:
+        job_desc = job['job_poster_desc'].lower()  # convert to lowercase for comparison
+        matched_count = 0
+        matched_in_desc = []
 
-    # print('\n PDF plumber')
-    # with pdfplm.open('resum.pdf') as pdf:
-    #     nopages = len(pdf.pages)
-    #     for i in range(0,nopages):
-    #         print(pdf.pages[i].extract_text())
+        for skill in matched_skills:
+            if skill in job_desc.split():  # match full words only
+                matched_count += 1
+                matched_in_desc.append(skill)
+        
+        
+        print(f"Matched Skills in Job: {matched_in_desc}")
 
-    print(empresumedata)
+        if matched_count >= 3:
+            jobids_matchted_list.append(job['job_id'])
+    
+    print(jobids_matchted_list)
+    
+
+    # now those skills of user will be checked with the skills of the job description 
+
+
+
+    
+
+    
 
     if user_data:
         return render_template('DashboardTemp/dashresume.html' , user_data=user_data , empportdata=empportdata , empresumedata=empresumedata , empprofilepath = empprofilepath)
