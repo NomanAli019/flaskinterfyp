@@ -65,25 +65,30 @@ def dash_resum():
     except FileNotFoundError:
         print(f"File not found at path: {os.path.abspath(csv_file_path)}")
 
-    # print("Matched Skills:", matched_skills)
+    print("Matched Skills:", matched_skills)
     jobids_matchted_list = [] 
     for job in emplrjobdescs:
-        job_desc = job['job_poster_desc'].lower()  # convert to lowercase for comparison
+        job_desc = job['job_poster_desc'].lower()
+    
+    # Extract words, ignoring punctuation (like commas, periods, etc.)
+        job_words = re.findall(r'\b\w+\b', job_desc)
+
         matched_count = 0
         matched_in_desc = []
 
         for skill in matched_skills:
-            if skill in job_desc.split():  # match full words only
+            if skill in job_words:
                 matched_count += 1
                 matched_in_desc.append(skill)
-        
-        
+
         print(f"Matched Skills in Job: {matched_in_desc}")
 
         if matched_count >= 3:
             jobids_matchted_list.append(job['job_id'])
     
     print(jobids_matchted_list)
+    # for jobid in jobids_matchted_list:
+
     
 
     # now those skills of user will be checked with the skills of the job description 
