@@ -111,6 +111,7 @@
            <div class="col-md-12">
             <h3 style="font-weight:bold">Selected Job for you </h3>
            </div>
+           {% for job in all_suggested_jobsdata %}
             <div class="col-md-6 resdashinterview-box">
                 
                 <div class="d-flex justify-content-between align-items-start">
@@ -121,13 +122,18 @@
                         
                         <!-- Interview Details -->
                         <div class="resdashinterview-details">
-                            <h5 class="resdashinterview-title">Technical Interview - Frontend Development</h5>
-                            <p class="resdashinterview-time">Tomorrow, 10:00 AM</p>
-                            <p class="resdashinterview-host">with John Smith (Tech Lead)</p>
+                            <h5 class="resdashinterview-title">Posted by: {{ job.job_poster_name }}
+                                
+                            </h5>
+                            <p class="resdashinterview-time">Job ID: {{ job.job_id }}</p>
+                            <p class="resdashinterview-host">Job Description: {{ job.job_poster_desc.strip().split()[:15] | join(' ') }}...</p>
                         </div>
+                        
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            
             
             <hr class="custom-hr">
         </div>

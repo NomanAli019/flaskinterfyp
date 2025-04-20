@@ -87,6 +87,12 @@ def dash_resum():
             jobids_matchted_list.append(job['job_id'])
     
     print(jobids_matchted_list)
+    all_suggested_jobsdata = []
+    for jobid in jobids_matchted_list:
+        jobdata = emplrjobsops.get_job_post_by_id(jobid)
+        all_suggested_jobsdata.append(jobdata)
+
+
     # for jobid in jobids_matchted_list:
 
     
@@ -100,7 +106,7 @@ def dash_resum():
     
 
     if user_data:
-        return render_template('DashboardTemp/dashresume.html' , user_data=user_data , empportdata=empportdata , empresumedata=empresumedata , empprofilepath = empprofilepath)
+        return render_template('DashboardTemp/dashresume.html' , user_data=user_data , empportdata=empportdata , empresumedata=empresumedata , empprofilepath = empprofilepath , all_suggested_jobsdata=all_suggested_jobsdata)
     else:
         return render_template('homepagesTemp/login.html')
 
