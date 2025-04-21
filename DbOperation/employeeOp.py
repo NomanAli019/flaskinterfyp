@@ -22,6 +22,7 @@ class EmployeeOperations:
             db.session.add(new_employee)
             db.session.commit()
             print(f"User {full_name} created successfully!")
+            return new_employee.id
 
     @staticmethod
     def check_user(email):
@@ -55,3 +56,19 @@ class EmployeeOperations:
                 print(f"User {user.full_name} deleted successfully!")
             else:
                 print("User not found.")
+
+    @staticmethod
+    def get_user_by_id(user_id):
+        with app.app_context():
+            user = Employee.query.get(user_id)
+            if user:
+                return {
+                    "id": user.id,
+                    "full_name": user.full_name,
+                    "email": user.email,
+                    "phone_number": user.phone_number,
+                    "house_address": user.house_address,
+                    "country": user.country
+                }
+            else:
+                return None

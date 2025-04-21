@@ -59,6 +59,20 @@ class JobPost(db.Model):
 
     def __repr__(self):
         return f"<JobPost {self.job_poster_name} - {self.job_poster_mail}>"
+    
+class EmployerSavedData(db.Model):
+    __tablename__ = 'employersaveddata'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    empid = db.Column(db.Integer, nullable=False)
+    job_aquired = db.Column(db.Integer, nullable=False, default=0)
+    total_attempts = db.Column(db.Integer, nullable=False, default=0)
+    no_of_passing_Attempts = db.Column(db.Integer, nullable=False, default=0)
+    no_of_losing_Attempts = db.Column(db.Integer, nullable=False, default=0)
+
+    def __repr__(self):
+        return f"<EmployerSavedData ID={self.id}, EmpID={self.empid}, Aquired={self.job_aquired}>"
+
 
 # Run this to create tables only once
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from DbOperation.empportOp import EmployeePortfolioOperations
 from DbOperation.EmpReumeOp import EmployeeResumesOperations
 from DbOperation.empprofileOp import EmployeeProfileOperations
 from DbOperation.JobPosterOp import JobPostOperations
+from DbOperation.empsavedataOp import EmployerSavedDataOperations
 import csv
 import os
 import re
@@ -15,14 +16,18 @@ empportops = EmployeePortfolioOperations()
 empresumesops = EmployeeResumesOperations()
 empprofilesops = EmployeeProfileOperations()
 emplrjobsops  = JobPostOperations()
+emplrsavdataops = EmployerSavedDataOperations()
 
 
 @dashboard_pages.route('/dashhome')
 def dashHome():
     user_data = session.get('empuser_data')
+    userid = user_data['id']
+    get_emplr_savedata = emplrsavdataops.get_entries_by_empid(userid)
+    print(get_emplr_savedata)
     
     if user_data:
-        return render_template('DashboardTemp/dashindex.html' , user_data=user_data)
+        return render_template('DashboardTemp/dashindex.html' , user_data=user_data , get_emplr_savedata=get_emplr_savedata)
     else:
         return render_template('homepagesTemp/login.html')
     
@@ -34,64 +39,70 @@ def dash_resum():
     empresumedata = empresumesops.get_resumes_by_employee(user_data['id'])
     empprofilepath = empprofilesops.get_profile_by_employee(user_data['id'])
     emplrjobdescs = emplrjobsops.get_all_job_posts()
-    
-    reader = PdfReader(empresumedata['path'])
-    resumedatatext_list = []
+    try:
+        reader = PdfReader(empresumedata['path'])
+        resumedatatext_list = []
 
-    # Process pages: extract text and split into words
-    for page in reader.pages:
-        text = page.extract_text()
-        if text:
-            words = re.findall(r'\b\w+\b', text.lower())  # Split into words
-            resumedatatext_list.append(words)
+        # Process pages: extract text and split into words
+        for page in reader.pages:
+            text = page.extract_text()
+            if text:
+                words = re.findall(r'\b\w+\b', text.lower())  # Split into words
+                resumedatatext_list.append(words)
 
-    csv_file_path = r'SkillSet\tableConvert.com_24utfm.csv'
+        csv_file_path = r'SkillSet\tableConvert.com_24utfm.csv'
 
-    matched_skills = []
+        matched_skills = []
+
+        try:
+            with open(csv_file_path, mode='r', newline='', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                next(reader)  # Skip header
+
+                for row in reader:
+                    if len(row) >= 3:
+                        skill = row[2].strip().lower()
+                        for word_list in resumedatatext_list:
+                            if skill in word_list:
+                                matched_skills.append(skill)
+                                break
+
+        except FileNotFoundError:
+            print(f"File not found at path: {os.path.abspath(csv_file_path)}")
+
+        print("Matched Skills:", matched_skills)
+        jobids_matchted_list = [] 
+        for job in emplrjobdescs:
+            job_desc = job['job_poster_desc'].lower()
+        
+        # Extract words, ignoring punctuation (like commas, periods, etc.)
+            job_words = re.findall(r'\b\w+\b', job_desc)
+
+            matched_count = 0
+            matched_in_desc = []
+
+            for skill in matched_skills:
+                if skill in job_words:
+                    matched_count += 1
+                    matched_in_desc.append(skill)
+
+            print(f"Matched Skills in Job: {matched_in_desc}")
+
+            if matched_count >= 3:
+                jobids_matchted_list.append(job['job_id'])
+        
+        print(jobids_matchted_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
     try:
-        with open(csv_file_path, mode='r', newline='', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            next(reader)  # Skip header
-
-            for row in reader:
-                if len(row) >= 3:
-                    skill = row[2].strip().lower()
-                    for word_list in resumedatatext_list:
-                        if skill in word_list:
-                            matched_skills.append(skill)
-                            break
-
-    except FileNotFoundError:
-        print(f"File not found at path: {os.path.abspath(csv_file_path)}")
-
-    print("Matched Skills:", matched_skills)
-    jobids_matchted_list = [] 
-    for job in emplrjobdescs:
-        job_desc = job['job_poster_desc'].lower()
-    
-    # Extract words, ignoring punctuation (like commas, periods, etc.)
-        job_words = re.findall(r'\b\w+\b', job_desc)
-
-        matched_count = 0
-        matched_in_desc = []
-
-        for skill in matched_skills:
-            if skill in job_words:
-                matched_count += 1
-                matched_in_desc.append(skill)
-
-        print(f"Matched Skills in Job: {matched_in_desc}")
-
-        if matched_count >= 3:
-            jobids_matchted_list.append(job['job_id'])
-    
-    print(jobids_matchted_list)
-    all_suggested_jobsdata = []
-    for jobid in jobids_matchted_list:
-        jobdata = emplrjobsops.get_job_post_by_id(jobid)
-        all_suggested_jobsdata.append(jobdata)
-
+        all_suggested_jobsdata = []
+        for jobid in jobids_matchted_list:
+            jobdata = emplrjobsops.get_job_post_by_id(jobid)
+            all_suggested_jobsdata.append(jobdata)
+    except Exception as e:
+        all_suggested_jobsdata = []
 
     # for jobid in jobids_matchted_list:
 
@@ -106,7 +117,7 @@ def dash_resum():
     
 
     if user_data:
-        return render_template('DashboardTemp/dashresume.html' , user_data=user_data , empportdata=empportdata , empresumedata=empresumedata , empprofilepath = empprofilepath , all_suggested_jobsdata=all_suggested_jobsdata)
+        return render_template('DashboardTemp/dashresume.html' , user_data=user_data , empportdata=empportdata  , empprofilepath = empprofilepath , all_suggested_jobsdata=all_suggested_jobsdata)
     else:
         return render_template('homepagesTemp/login.html')
 

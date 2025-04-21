@@ -1,5 +1,8 @@
 from flask import Blueprint, request, jsonify , session , make_response , redirect , url_for
 from DbOperation.employeeOp import EmployeeOperations
+from DbOperation.empsavedataOp import EmployerSavedDataOperations
+
+emplrsavdataops = EmployerSavedDataOperations()
 
 register_user = Blueprint('register_user', __name__)
 
@@ -7,7 +10,6 @@ register_user = Blueprint('register_user', __name__)
 def register_emp():
     try:
         request_data = request.get_json()
-        print("Request Data:", request_data)  # Debugging log
 
         data = request_data.get("employeeData", {})
         print("Employee Data:", data)  # Debugging log
@@ -27,7 +29,9 @@ def register_emp():
             return jsonify({"success": False, "exists": True, "message": "User already exists"}), 400
 
         print("Creating user...")  # Debugging
-        EmployeeOperations.create_user(full_name, email, password, phone_number, house_address, country)
+        newempid = EmployeeOperations.create_user(full_name, email, password, phone_number, house_address, country)
+        
+        emplrsavdataops.create_entry(newempid,0,0,0,0)
         return jsonify({"success": True, "exists": False, "message": "Employee registered successfully!"}), 200
 
 
