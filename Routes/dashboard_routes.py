@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for 
+from flask import Blueprint, render_template, session, redirect, url_for , request , flash
 from DbOperation.empportOp import EmployeePortfolioOperations
 from DbOperation.EmpReumeOp import EmployeeResumesOperations
 from DbOperation.empprofileOp import EmployeeProfileOperations
@@ -9,6 +9,7 @@ import os
 import re
 from PyPDF2 import PdfReader
 from pdfminer.high_level import extract_text
+
 import pdfplumber as pdfplm
 dashboard_pages = Blueprint('dashboard_pages', __name__)
 
@@ -125,4 +126,19 @@ def dash_resum():
 @dashboard_pages.route('/dashinter')
 def dash_inter():
     user_data = session.get('empuser_data')
-    return render_template('DashboardTemp/dashinterview.html', user_data=user_data)
+    if user_data:
+        try:
+            job_id = request.args.get('job_id')
+        except Exception as e:
+            flash('⚠️ You must select a job before going to the interview room.', 'warning')
+            return redirect(url_for('dashboard_pages.dashHome'))
+
+        user_data = session.get('empuser_data')
+        print(job_id)
+        if job_id:
+            return render_template('DashboardTemp/dashinterview.html', user_data=user_data)
+        else:
+            flash('⚠️ You must select a job before going to the interview room.', 'warning')
+            return redirect(url_for('dashboard_pages.dashHome'))
+    else:
+        return render_template('homepagesTemp/login.html')

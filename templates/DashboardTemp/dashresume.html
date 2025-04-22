@@ -122,16 +122,43 @@
                         
                         <!-- Interview Details -->
                         <div class="resdashinterview-details">
-                            <h5 class="resdashinterview-title">Posted by: {{ job.job_poster_name }}
-                                
+                            <h5 style="cursor: pointer;" class="resdashinterview-title" data-bs-toggle="modal" data-bs-target="#jobDescModal{{ job.job_id }}">
+                                Posted by: {{ job.job_poster_name }}
                             </h5>
                             <p class="resdashinterview-time">Job ID: {{ job.job_id }}</p>
-                            <p class="resdashinterview-host">Job Description: {{ job.job_poster_desc.strip().split()[:15] | join(' ') }}...</p>
+                            <p class="resdashinterview-host">
+                                Job Description: {{ job.job_poster_desc.strip().split()[:15] | join(' ') }}...
+                            </p>
                         </div>
+                        
                         
                     </div>
                 </div>
             </div>
+            <!-- Job Description Modal -->
+            <div class="modal fade" id="jobDescModal{{ job.job_id }}" tabindex="-1" aria-labelledby="jobDescModalLabel{{ job.job_id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="jobDescModalLabel{{ job.job_id }}">Job Description by {{ job.job_poster_name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <p>{{ job.job_poster_desc }}</p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <a href="{{ url_for('dashboard_pages.dash_inter', job_id=job.job_id) }}"
+                                    class="btn btn-dark rounded-pill px-4 py-2">
+                                        Start Instant Interview
+                            </a>
+                            <button class="btn btn-dark rounded-pill px-4 py-2">
+                                Save Job for Later
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  
             {% endfor %}
             
             
