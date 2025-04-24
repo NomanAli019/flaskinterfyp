@@ -223,10 +223,12 @@ function submitJob() {
     let email = document.getElementById("email").value.trim();
     let phone = document.getElementById("phone").value.trim();
     let job_description = document.getElementById("job_description").value.trim();
+    let job_salary = document.getElementById("jobsalary").value.trim();
+    let job_title = document.getElementById("job_title").value.trim();
     let source = document.getElementById("source").value;
 
     // Validation check
-    if (!name || !email || !phone || !job_description || source === "How did you find us?") {
+    if (!name || !email || !job_salary || !job_title || !phone || !job_description || source === "How did you find us?") {
         alert("All fields are required!");
         return;
     }
@@ -236,6 +238,8 @@ function submitJob() {
         name: name,
         email: email,
         phone: phone,
+        job_title: job_title,
+        job_salary: job_salary,
         job_description: job_description,
         source: source
     };

@@ -115,15 +115,29 @@
                         <div class="mb-3">
                             <input type="text" id="name" class="form-control" placeholder="Name *" required>
                         </div>
+                        
                         <div class="mb-3">
                             <input type="email" id="email" class="form-control" placeholder="Email *" required>
                         </div>
+                        
                         <div class="mb-3">
                             <input type="text" id="phone" class="form-control" placeholder="Phone number *" required>
                         </div>
+                    
+                        <!-- New Job Title field -->
+                        <div class="mb-3">
+                            <input type="text" id="job_title" class="form-control" placeholder="Job Title *" required>
+                        </div>
+                    
+                        <!-- New Salary field -->
+                        <div class="mb-3">
+                            <input type="number" id="jobsalary" class="form-control" placeholder="Salary (e.g., 50000)" required>
+                        </div>
+                    
                         <div class="mb-3">
                             <textarea id="job_description" class="form-control" placeholder="Job Description *" rows="4" required></textarea>
                         </div>
+                    
                         <div class="mb-3">
                             <select id="source" class="form-select" required>
                                 <option selected disabled>How did you find us?</option>
@@ -132,8 +146,10 @@
                                 <option value="Advertisements">Advertisements</option>
                             </select>
                         </div>
+                    
                         <button type="button" class="btn btn-light w-100" onclick="submitJob()">SEND</button>
                     </form>
+                    
                     
                 </div>
             </div>

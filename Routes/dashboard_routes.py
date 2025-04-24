@@ -142,3 +142,12 @@ def dash_inter():
             return redirect(url_for('dashboard_pages.dashHome'))
     else:
         return render_template('homepagesTemp/login.html')
+    
+
+@dashboard_pages.route('/dashsavedjobs')
+def dash_saved_jobs():
+    user_data = session.get('empuser_data')
+    if user_data:
+        return render_template("DashboardTemp/dashsavedjobs.html", user_data=user_data)
+    else:
+        return render_template('homepagesTemp/login.html')

@@ -9,13 +9,15 @@ db.init_app(app)
 
 class JobPostOperations:
     @staticmethod
-    def create_job_post(job_poster_name, job_poster_mail, job_poster_number, job_poster_desc, whereyoufind):
+    def create_job_post(job_poster_name, job_poster_mail, job_poster_number,jobtitle , job_salary, job_poster_desc, whereyoufind):
         """Create a new job post entry."""
         with app.app_context():
             new_job = JobPost(
                 job_poster_name=job_poster_name,
                 job_poster_mail=job_poster_mail,
                 job_poster_number=job_poster_number,
+                job_title=jobtitle,
+                job_salary=job_salary,
                 job_poster_desc=job_poster_desc,
                 whereyoufind=whereyoufind
             )
@@ -33,6 +35,8 @@ class JobPostOperations:
                 "job_poster_name": job.job_poster_name,
                 "job_poster_mail": job.job_poster_mail,
                 "job_poster_number": job.job_poster_number,
+                "job_title":job.job_title,
+                "job_salary":job.job_salary,
                 "job_poster_desc": job.job_poster_desc,
                 "whereyoufind": job.whereyoufind
             } if job else None
@@ -47,6 +51,8 @@ class JobPostOperations:
                 "job_poster_name": job.job_poster_name,
                 "job_poster_mail": job.job_poster_mail,
                 "job_poster_number": job.job_poster_number,
+                "job_title":job.job_title,
+                "job_salary":job.job_salary,
                 "job_poster_desc": job.job_poster_desc,
                 "whereyoufind": job.whereyoufind
             } for job in jobs] if jobs else []

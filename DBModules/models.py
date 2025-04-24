@@ -57,8 +57,13 @@ class JobPost(db.Model):
     job_poster_desc = db.Column(db.Text, nullable=False)
     whereyoufind = db.Column(db.String(50), nullable=False)
 
+    # New fields
+    job_title = db.Column(db.String(100), nullable=False)
+    job_salary = db.Column(db.String(50), nullable=False)
+
     def __repr__(self):
         return f"<JobPost {self.job_poster_name} - {self.job_poster_mail}>"
+
     
 class EmployerSavedData(db.Model):
     __tablename__ = 'employersaveddata'

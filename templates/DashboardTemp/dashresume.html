@@ -123,8 +123,9 @@
                         <!-- Interview Details -->
                         <div class="resdashinterview-details">
                             <h5 style="cursor: pointer;" class="resdashinterview-title" data-bs-toggle="modal" data-bs-target="#jobDescModal{{ job.job_id }}">
-                                Posted by: {{ job.job_poster_name }}
+                                Job Title: {{ job.job_title }}
                             </h5>
+                            <p class="resdashinterview-time">Job Salary: {{ job.job_salary }}</p>
                             <p class="resdashinterview-time">Job ID: {{ job.job_id }}</p>
                             <p class="resdashinterview-host">
                                 Job Description: {{ job.job_poster_desc.strip().split()[:15] | join(' ') }}...
@@ -151,9 +152,9 @@
                                     class="btn btn-dark rounded-pill px-4 py-2">
                                         Start Instant Interview
                             </a>
-                            <button class="btn btn-dark rounded-pill px-4 py-2">
+                            <a href="{{ url_for('dashboard_savedjobs.dash_savingjob') }}" class="btn btn-dark rounded-pill px-4 py-2">
                                 Save Job for Later
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
