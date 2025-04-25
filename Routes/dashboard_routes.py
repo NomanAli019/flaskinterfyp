@@ -107,16 +107,6 @@ def dash_resum():
 
     # for jobid in jobids_matchted_list:
 
-    
-
-    # now those skills of user will be checked with the skills of the job description 
-
-
-
-    
-
-    
-
     if user_data:
         return render_template('DashboardTemp/dashresume.html' , user_data=user_data , empportdata=empportdata  , empprofilepath = empprofilepath , all_suggested_jobsdata=all_suggested_jobsdata)
     else:

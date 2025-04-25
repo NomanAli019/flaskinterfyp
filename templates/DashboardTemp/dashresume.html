@@ -152,7 +152,7 @@
                                     class="btn btn-dark rounded-pill px-4 py-2">
                                         Start Instant Interview
                             </a>
-                            <a href="{{ url_for('dashboard_savedjobs.dash_savingjob') }}" class="btn btn-dark rounded-pill px-4 py-2">
+                            <a href="{{ url_for('dashboard_savedjobs.dash_savingjob' , job_id=job.job_id) }}" class="btn btn-dark rounded-pill px-4 py-2">
                                 Save Job for Later
                             </a>
                         </div>

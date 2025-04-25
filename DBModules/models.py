@@ -78,6 +78,16 @@ class EmployerSavedData(db.Model):
     def __repr__(self):
         return f"<EmployerSavedData ID={self.id}, EmpID={self.empid}, Aquired={self.job_aquired}>"
 
+class SavedJobsData(db.Model):
+    __tablename__ = 'savedjobsdata'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    empid = db.Column(db.Integer, nullable=False)
+    jobid = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"<SavedJobsData ID={self.id}, EmpID={self.empid}, JobID={self.jobid}>"
+
 
 # Run this to create tables only once
 if __name__ == '__main__':

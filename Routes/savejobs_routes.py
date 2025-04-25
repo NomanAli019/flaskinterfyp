@@ -4,6 +4,7 @@ from DbOperation.EmpReumeOp import EmployeeResumesOperations
 from DbOperation.empprofileOp import EmployeeProfileOperations
 from DbOperation.JobPosterOp import JobPostOperations
 from DbOperation.empsavedataOp import EmployerSavedDataOperations
+from DbOperation.savedjobsempOp import SavedJobsDataOperations
 import csv
 import os
 import re
@@ -18,12 +19,15 @@ empresumesops = EmployeeResumesOperations()
 empprofilesops = EmployeeProfileOperations()
 emplrjobsops  = JobPostOperations()
 emplrsavdataops = EmployerSavedDataOperations()
+savedjobsops = SavedJobsDataOperations()
 
 
 @dashboard_savedjobs.route('/dash_savingjob')
 def dash_savingjob():
     user_data = session.get('empuser_data')
     if user_data:
+        job_id = request.args.get('job_id')
+        
         return render_template("DashboardTemp/dashsavedjobs.html", user_data=user_data)
     else:
         return render_template('homepagesTemp/login.html')
