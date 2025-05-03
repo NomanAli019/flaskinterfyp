@@ -36,8 +36,16 @@
     </div>
     <div class="transcription mt-3">
         <h4 class="text-center">Live Transcription</h4>
-        <p>...</p>
+        <div id="chat-box" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+            <p><strong>Bot:</strong> {{ bot_reply }}</p>
+        </div>
+        <div class="mt-2 d-flex">
+            <input type="text" id="user-input" class="form-control me-2" placeholder="Type your answer...">
+            <button class="btn btn-primary" id="send-btn">Send</button>
+        </div>
+        <button class="btn btn-success w-100 mt-3" id="startInterview">Start Interview</button>
     </div>
+    
 
 
 </div>

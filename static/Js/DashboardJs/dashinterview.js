@@ -63,3 +63,71 @@ fullscreenButton.addEventListener("click", () => {
         document.exitFullscreen();
     }
 });
+
+
+const jobId = "{{ request.args.get('job_id') }}";
+const chatBox = document.getElementById("chat-box");
+const inputField = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+const startBtn = document.getElementById("startInterview");
+
+// Disable input initially
+inputField.disabled = true;
+sendBtn.disabled = true;
+
+function appendMessage(sender, message) {
+    const msgDiv = document.createElement("div");
+    msgDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function sendToBot(userInput = "") {
+    fetch("/dashinter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_input: userInput, job_id: jobId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            appendMessage("Error", data.error);
+            return;
+        }
+        if (userInput) appendMessage("You", userInput);
+        appendMessage("HR", data.bot_reply);
+
+        if (data.finished) {
+            inputField.disabled = true;
+            sendBtn.disabled = true;
+            appendMessage("System", "✅ Interview finished. Thank you!");
+        }
+    })
+    .catch(err => {
+        appendMessage("Error", "Something went wrong.");
+        console.error(err);
+    });
+}
+
+// Start Interview
+startBtn.addEventListener("click", () => {
+    inputField.disabled = false;
+    sendBtn.disabled = false;
+    startBtn.disabled = true;
+    sendToBot(); // Kick off with the first bot question
+});
+
+// Send user answer
+sendBtn.addEventListener("click", () => {
+    const userInput = inputField.value.trim();
+    if (!userInput) return;
+    inputField.value = "";
+    sendToBot(userInput);
+});
+
+// Optional: Press Enter to send
+inputField.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        sendBtn.click();
+    }
+});

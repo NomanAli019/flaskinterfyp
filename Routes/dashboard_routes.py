@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, session, redirect, url_for , request , flash
+from flask import Blueprint, render_template, session, redirect, url_for , request , flash , jsonify
+import requests
 from DbOperation.empportOp import EmployeePortfolioOperations
 from DbOperation.EmpReumeOp import EmployeeResumesOperations
 from DbOperation.empprofileOp import EmployeeProfileOperations
 from DbOperation.JobPosterOp import JobPostOperations
 from DbOperation.empsavedataOp import EmployerSavedDataOperations
+from DbOperation.savedjobsempOp import SavedJobsDataOperations
 import csv
 import os
 import re
@@ -18,6 +20,7 @@ empresumesops = EmployeeResumesOperations()
 empprofilesops = EmployeeProfileOperations()
 emplrjobsops  = JobPostOperations()
 emplrsavdataops = EmployerSavedDataOperations()
+savedjobsops = SavedJobsDataOperations()
 
 
 @dashboard_pages.route('/dashhome')
@@ -113,31 +116,141 @@ def dash_resum():
         return render_template('homepagesTemp/login.html')
 
 
-@dashboard_pages.route('/dashinter')
+@dashboard_pages.route('/dashinter', methods=['GET', 'POST'])
 def dash_inter():
-    user_data = session.get('empuser_data')
-    if user_data:
-        try:
-            job_id = request.args.get('job_id')
-        except Exception as e:
-            flash('⚠️ You must select a job before going to the interview room.', 'warning')
-            return redirect(url_for('dashboard_pages.dashHome'))
+    user_data = session["empuser_data"]
+    job_id = request.args.get("job_id")
+    
+    
 
-        user_data = session.get('empuser_data')
-        print(job_id)
-        if job_id:
-            return render_template('DashboardTemp/dashinterview.html', user_data=user_data)
+    if request.method == 'GET':
+        # Setup session on first load
+        if "chat_history" not in session:
+            user_data = session["empuser_data"]
+            name = user_data['full_name']
+            resume_info = "2+ years of experience in Python coding"
+            job_description = emplrjobsops.get_job_post_by_id(job_id)['job_poster_desc']
+
+            system_prompt = (
+                f"You are a strict HR assistant conducting a job interview with a candidate named {name}. "
+                f"The candidate's resume mentions: {resume_info}. "
+                f"The job description mentions: {job_description}. "
+                "Ask only 10 questions in total. "
+                "The first 4 questions must be about the candidate's past experience. "
+                "The next 6 questions must be technical and scenario-based. "
+                "Only ask one question at a time. "
+                "Ask counter-questions based on the candidate’s answers. "
+                "Evaluate at the end with a score and strengths/weaknesses."
+            )
+
+            session["chat_history"] = [{"role": "system", "content": system_prompt}]
+            session["question_count"] = 0
+
+            # Ask first question
+            payload = {
+                "model": "mistral-large-latest",
+                "messages": session["chat_history"]
+            }
+
+            response = requests.post(
+                "https://api.mistral.ai/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer Cn66z1g23eruHwrjmO1wdO1ezcMQVPOO",
+                    "Content-Type": "application/json"
+                },
+                json=payload
+            )
+
+            if response.status_code == 200:
+                reply = response.json()["choices"][0]["message"]["content"]
+                session["chat_history"].append({"role": "assistant", "content": reply})
+                session["question_count"] += 1
+            else:
+                reply = "Sorry, the bot couldn't start the interview right now."
+
         else:
-            flash('⚠️ You must select a job before going to the interview room.', 'warning')
-            return redirect(url_for('dashboard_pages.dashHome'))
-    else:
-        return render_template('homepagesTemp/login.html')
+            # If already started
+            reply = session["chat_history"][-1]["content"]
+
+        return render_template("DashboardTemp/dashinterview.html",user_data=user_data ,bot_reply=reply, job_id=job_id)
+    
+    elif request.method == 'POST':
+        data = request.get_json()
+        user_input = data.get("user_input", "").strip()
+        job_id = data.get("job_id")
+
+        if not user_input:
+            return jsonify({"error": "Please type your answer to proceed."})
+
+        session["chat_history"].append({"role": "user", "content": user_input})
+
+        if session.get("question_count", 0) >= 10:
+            return jsonify({
+                "bot_reply": "✅ Thank you. The interview is complete. Please wait while we evaluate your performance.",
+                "finished": True
+            })
+
+        # Call API
+        payload = {
+            "model": "mistral-large-latest",
+            "messages": session["chat_history"]
+        }
+
+        response = requests.post(
+            "https://api.mistral.ai/v1/chat/completions",
+            headers={
+                "Authorization": "Bearer Cn66z1g23eruHwrjmO1wdO1ezcMQVPOO",
+                "Content-Type": "application/json"
+            },
+            json=payload
+        )
+
+        if response.status_code == 200:
+            reply = response.json()["choices"][0]["message"]["content"]
+            session["chat_history"].append({"role": "assistant", "content": reply})
+            session["question_count"] += 1
+            return jsonify({"bot_reply": reply})
+        else:
+            return jsonify({"error": "Sorry, the bot is currently unavailable."})
+
+
+    # user_data = session.get('empuser_data')
+    # if user_data:
+    #     try:
+    #         job_id = request.args.get('job_id')
+    #     except Exception as e:
+            
+    #         flash('⚠️ You must select a job before going to the interview room.', 'warning')
+    #         return redirect(url_for('dashboard_pages.dashHome'))
+
+    #     user_data = session.get('empuser_data')
+    #     print(job_id)
+    #     if job_id:
+    #         empid = user_data['id']
+    #         jobdesc = emplrjobsops.get_job_post_by_id(job_id)
+    #         jobdesc = jobdesc['job_poster_desc']
+    #         print(jobdesc)
+    #         return render_template('DashboardTemp/dashinterview.html', user_data=user_data)
+    #     else:
+    #         flash('⚠️ You must select a job before going to the interview room.', 'warning')
+    #         return redirect(url_for('dashboard_pages.dashHome'))
+    # else:
+    #     return render_template('homepagesTemp/login.html')
     
 
 @dashboard_pages.route('/dashsavedjobs')
 def dash_saved_jobs():
     user_data = session.get('empuser_data')
     if user_data:
-        return render_template("DashboardTemp/dashsavedjobs.html", user_data=user_data)
+        empid = user_data['id']
+        savedjobsdata = savedjobsops.get_saved_jobs_by_empid(empid)
+        alljobsavedata = []
+
+        for job in savedjobsdata:
+            aselectedjob = emplrjobsops.get_job_post_by_id(job['jobid'])
+            alljobsavedata.append(aselectedjob)
+        print(alljobsavedata)
+        
+        return render_template("DashboardTemp/dashsavedjobs.html", user_data=user_data , alljobsavedata=alljobsavedata)
     else:
         return render_template('homepagesTemp/login.html')

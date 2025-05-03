@@ -10,3 +10,7 @@ cffi===1.17.1
 cryptography===44.0.2
 pdfminer_six===20250327
 pdfplumber===0.11.6
+urllib3===2.4.0
+idna===3.10
+certifi===2025.4.26
+requests===2.32.3

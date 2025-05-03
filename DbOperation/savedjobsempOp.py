@@ -29,15 +29,16 @@ class SavedJobsDataOperations:
             } if saved_job else None
 
     @staticmethod
-    def get_all_saved_jobs():
-        """Retrieve all saved jobs."""
+    def get_saved_jobs_by_empid(empid):
+        """Retrieve saved jobs for a specific employee."""
         with app.app_context():
-            saved_jobs = SavedJobsData.query.all()
+            saved_jobs = SavedJobsData.query.filter_by(empid=empid).all()
             return [{
                 "id": job.id,
                 "empid": job.empid,
                 "jobid": job.jobid
             } for job in saved_jobs] if saved_jobs else []
+
 
     @staticmethod
     def update_saved_job(saved_id, empid=None, jobid=None):

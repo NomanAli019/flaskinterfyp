@@ -27,19 +27,16 @@ def dash_savingjob():
     user_data = session.get('empuser_data')
     if user_data:
         job_id = request.args.get('job_id')
+        empid = user_data['id']
         if job_id:
-            empid = user_data['id']
             if savedjobsops.is_job_saved_by_emp(empid , job_id):
                 flash('⚠️ The following job is already saved for you try with new one', 'warning')
                 return redirect(url_for('dashboard_pages.dashHome'))
             else:
+                flash('✅ Job added to saved successfully!', 'success')
                 savedjobsops.create_saved_job(empid , job_id)
-                return render_template("DashboardTemp/dashsavedjobs.html", user_data=user_data)
+                return redirect(url_for('dashboard_pages.dash_resum'))
 
-
-
-        
-        
-        return render_template("DashboardTemp/dashsavedjobs.html", user_data=user_data)
+       
     else:
         return render_template('homepagesTemp/login.html')
