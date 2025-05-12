@@ -14,3 +14,17 @@ urllib3===2.4.0
 idna===3.10
 certifi===2025.4.26
 requests===2.32.3
+cachelib===0.13.0
+Flask_Caching===2.3.1
+wrapt===1.17.2
+pygments===2.19.1
+packaging===25.0
+ordered_set===4.1.0
+mdurl===0.1.2
+markdown_it_py===3.0.0
+Deprecated===1.2.18
+rich===13.9.4
+limits===5.1.0
+flask_limiter===3.12
+webencodings===0.5.1
+bleach===6.2.0

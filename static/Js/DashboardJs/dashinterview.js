@@ -1,3 +1,6 @@
+
+
+
 let videoElement = document.getElementById("video");
 let startInterviewButton = document.getElementById("startInterview");
 let muteButton = document.getElementById("muteButton");
@@ -65,6 +68,7 @@ fullscreenButton.addEventListener("click", () => {
 });
 
 
+
 const jobId = "{{ request.args.get('job_id') }}";
 const chatBox = document.getElementById("chat-box");
 const inputField = document.getElementById("user-input");
@@ -81,6 +85,61 @@ function appendMessage(sender, message) {
     chatBox.appendChild(msgDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+let currentUtterance = null;
+
+function speak(text) {
+    return new Promise(resolve => {
+        if ('speechSynthesis' in window) {
+            // Cancel current speech if any
+            if (currentUtterance) {
+                window.speechSynthesis.cancel();
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            
+            utterance.onend = resolve;
+            currentUtterance = utterance;
+            window.speechSynthesis.speak(utterance);
+        }
+    });
+}
+
+function stopSpeaking() {
+    if (window.speechSynthesis.speaking && currentUtterance) {
+        window.speechSynthesis.cancel();
+    }
+}
+
+// function sendToBot(userInput = "") {
+//     fetch("/dashinter", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ user_input: userInput, job_id: jobId })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         if (data.error) {
+//             appendMessage("Error", data.error);
+//             return;
+//         }
+//         if (userInput) appendMessage("You", userInput);
+//         appendMessage("HR", data.bot_reply);
+        
+
+//         if (data.finished) {
+//             inputField.disabled = true;
+//             sendBtn.disabled = true;
+//             appendMessage("System", "✅ Interview finished. Thank you!");
+//         }
+//     })
+//     .catch(err => {
+//         appendMessage("Error", "Something went wrong.");
+//         console.error(err);
+//     });
+// }
 
 function sendToBot(userInput = "") {
     fetch("/dashinter", {
@@ -94,8 +153,16 @@ function sendToBot(userInput = "") {
             appendMessage("Error", data.error);
             return;
         }
+        
         if (userInput) appendMessage("You", userInput);
         appendMessage("HR", data.bot_reply);
+
+        // Speak the bot reply immediately
+        if (data.bot_reply) {
+            speak(data.bot_reply).catch(err => {
+                console.error('Speech error:', err);
+            });
+        }
 
         if (data.finished) {
             inputField.disabled = true;
@@ -131,3 +198,7 @@ inputField.addEventListener("keypress", (e) => {
         sendBtn.click();
     }
 });
+
+
+
+        

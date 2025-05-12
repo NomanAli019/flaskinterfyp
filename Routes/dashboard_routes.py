@@ -120,8 +120,8 @@ def dash_resum():
 def dash_inter():
     user_data = session["empuser_data"]
     job_id = request.args.get("job_id")
-    
-    
+    empresumedata = empresumesops.get_resumes_by_employee(user_data['id'])
+    print(empresumedata['employee_id'])
 
     if request.method == 'GET':
         # Setup session on first load
