@@ -1,4 +1,78 @@
 {% include "DashboardTemp/dashheader.html" %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const videoElement = document.getElementById("video");
+    const startInterviewButton = document.getElementById("startInterview");
+    const endCallButton = document.getElementById("endCallButton");
+
+    let frameInterval;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    function startCamera() {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((stream) => {
+                videoElement.srcObject = stream;
+                videoElement.play();
+
+                if (!frameInterval) {
+                    // Start sending frames every 2 seconds
+                    frameInterval = setInterval(sendFrameToServer, 2000);
+                }
+            })
+            .catch((error) => {
+                console.error("Error accessing camera:", error);
+            });
+    }
+
+    function sendFrameToServer() {
+    if (!videoElement || videoElement.readyState !== 4) return;
+
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+    canvas.toBlob((blob) => {
+        const formData = new FormData();
+        formData.append("frame", blob, "frame.jpg");
+
+        fetch("http://127.0.0.1:5000/process_frame", {
+            method: "POST",
+            body: formData
+        })
+        .then((res) => res.json())  // ✅ Parse JSON response
+        .then((data) => {
+            console.log("Server Response:", data.message);
+
+            const alertBox = document.getElementById("alert-box");
+            if (data.message !== "OK") {
+                alertBox.textContent = data.message;
+                alertBox.classList.remove("d-none");
+                alertBox.classList.add("alert-danger");
+            } else {
+                alertBox.classList.add("d-none");  // Hide if no alert
+                alertBox.textContent = "";
+            }
+        })
+        .catch((error) => {
+            console.error("Error sending frame:", error);
+        });
+    }, "image/jpeg");
+}
+    startInterviewButton.addEventListener("click", () => {
+        startCamera();  // Start camera
+    });
+
+    endCallButton.addEventListener("click", () => {
+        if (frameInterval) {
+            clearInterval(frameInterval);
+            frameInterval = null;
+        }
+    });
+});
+</script>
+
+<div id="alert-box" class="alert alert-danger text-center d-none" role="alert" style="font-size: 1.1rem;"></div>
 
   <div class="container-fluid">
 
@@ -43,7 +117,7 @@
             <input type="text" id="user-input" class="form-control me-2" placeholder="Type your answer...">
             <button class="btn btn-primary" id="send-btn">Send</button>
         </div>
-        <button class="btn btn-success w-100 mt-3" id="startInterview">Start Interview</button>
+        <button class="btn btn-success w-100 mt-3" >Start Interview</button>
     </div>
     
 
